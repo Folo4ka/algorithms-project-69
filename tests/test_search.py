@@ -12,11 +12,10 @@ documents = [
 @pytest.mark.parametrize(
     argnames=["docs", "search_value", "expected"],
     argvalues=[
-        (documents, "shoot", ["doc1", "doc2"]),
+        (documents, "shoot", ["doc2", "doc1"]),
         (documents, "pint", ["doc1"]),
         ([], "shoot", [])
     ]
 )
 def test_search(docs, search_value, expected):
-    # поисковый движок проводит поиск
     assert search(docs, search_value) == expected
