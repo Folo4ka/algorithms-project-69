@@ -14,6 +14,7 @@ documents = [
     argvalues=[
         (documents, "shoot", ["doc2", "doc1"]),
         (documents, "pint", ["doc1"]),
+        (documents, "shoot at me", ["doc2", "doc1"]),
         ([], "shoot", [])
     ]
 )
