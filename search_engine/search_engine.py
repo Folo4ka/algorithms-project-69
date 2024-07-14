@@ -15,7 +15,7 @@ def search(docs: list[Document], value: str) -> list[str]:
     if not docs:
         return []
 
-    search_terms = re.findall(r"[a-zA-Z0-9а-яА-я_]+", value)
+    search_terms = re.findall(r"[a-zA-Z0-9а-яА-я_]+", value.lower())
     docs_map = get_term_docs_map(docs)
     docs_reversed_index = get_reversed_index(docs_map)
     result_docs: dict[str, float] = {}
@@ -73,4 +73,4 @@ def get_term_docs_map(docs: list[Document]) -> dict[str, list[str]]:
     """
     Возвращает словарь документов со списками терм их текстов
     """
-    return {doc["id"]: re.findall(r"[a-zA-Z0-9а-яА-я_]+", doc["text"]) for doc in docs}
+    return {doc["id"]: re.findall(r"[a-zA-Z0-9а-яА-я_]+", doc["text"].lower()) for doc in docs}
