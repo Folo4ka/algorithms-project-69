@@ -23,15 +23,15 @@ def search(docs: list[Document], value: str) -> list[str]:
 
     # ищем документы по search_terms и вычисляем их релевантность
     for term in search_terms:
-        if not term in docs_reversed_index:
+        if term not in docs_reversed_index:
             continue
 
         for doc_id in docs_reversed_index[term]:
             relevant_value = get_tf_idf(
-               term=term,
-               doc_terms=docs_map.get(doc_id, []),
-               docs_reversed_index=docs_reversed_index,
-               docs_count=len(docs),
+                term=term,
+                doc_terms=docs_map.get(doc_id, []),
+                docs_reversed_index=docs_reversed_index,
+                docs_count=len(docs),
             )
 
             if doc_id in result_docs:
@@ -40,13 +40,23 @@ def search(docs: list[Document], value: str) -> list[str]:
                 result_docs[doc_id] = relevant_value
 
     # сортировка результата по релевантности
-    search_result = [{"id": doc_id, "relevant_score": relevant} for doc_id, relevant in result_docs.items()]
+    search_result = [
+        {
+            "id": doc_id,
+            "relevant_score": relevant
+        } for doc_id, relevant in result_docs.items()
+    ]
     search_result.sort(key=lambda doc: -doc["relevant_score"])
 
     return [doc["id"] for doc in search_result]
 
 
-def get_tf_idf(term: str, doc_terms: list[str], docs_reversed_index: dict[str, set[str]], docs_count: int) -> float:
+def get_tf_idf(
+    term: str,
+    doc_terms: list[str],
+    docs_reversed_index: dict[str, set[str]],
+    docs_count: int
+) -> float:
     """
     Функция вычисления значения TF-IDF для слова term по документу doc
     """
@@ -77,4 +87,7 @@ def get_term_docs_map(docs: list[Document]) -> dict[str, list[str]]:
     """
     Возвращает словарь документов со списками терм их текстов
     """
-    return {doc["id"]: re.findall(r"[a-zA-Z0-9а-яА-я_]+", doc["text"].lower()) for doc in docs}
+    return {
+        doc["id"]: re.findall(r"[a-zA-Z0-9а-яА-я_]+", doc["text"].lower())
+        for doc in docs
+    }

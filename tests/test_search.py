@@ -9,6 +9,7 @@ documents = [
     {"id": "doc3", "text": "I'm your shooter."},
 ]
 
+
 @pytest.mark.parametrize(
     argnames=["docs", "search_value", "expected"],
     argvalues=[
