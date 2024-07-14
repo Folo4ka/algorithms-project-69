@@ -12,16 +12,20 @@ def search(docs: list[Document], value: str) -> list[str]:
     Использован обратный индекс (слово: документы где встречается)
     """
 
-    if not docs:
+    search_terms = re.findall(r"[a-zA-Z0-9а-яА-я_]+", value.lower())
+
+    if not docs or not search_terms:
         return []
 
-    search_terms = re.findall(r"[a-zA-Z0-9а-яА-я_]+", value.lower())
     docs_map = get_term_docs_map(docs)
     docs_reversed_index = get_reversed_index(docs_map)
     result_docs: dict[str, float] = {}
 
     # ищем документы по search_terms и вычисляем их релевантность
     for term in search_terms:
+        if not term in docs_reversed_index:
+            continue
+
         for doc_id in docs_reversed_index[term]:
             relevant_value = get_tf_idf(
                term=term,

@@ -16,7 +16,9 @@ documents = [
         (documents, "pint", ["doc1"]),
         (documents, "PINT", ["doc1"]),
         (documents, "shoot at me", ["doc2", "doc1"]),
-        ([], "shoot", [])
+        ([], "shoot", []),
+        (documents, "", []),
+        (documents, "ololo", []),
     ]
 )
 def test_search(docs, search_value, expected):
